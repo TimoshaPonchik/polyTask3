@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">polyTask3</string>
+<!--    Поле для написания всех string полей нашего приложения-->
+<!--    MainMenuScene-->
+    <string name="txt_mainMenu_nameGame">Treasure Rush</string>
+    <string name="txt_mainMenu_newGame">New Game</string>
+    <string name="txt_mainMenu_settings">Settings</string>
+    <string name="txt_mainMenu_exitGame">Exit</string>
+
+<!--    GameScene-->
+    <string name="txt_gameScene_stateReady_ready">Вы готовы?</string>
+</resources>
