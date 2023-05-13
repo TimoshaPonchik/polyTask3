@@ -8,17 +8,17 @@ import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GestureDetectorCompat;
 
 import java.io.IOException;
 
 public class CoreFw extends AppCompatActivity {
 
-    private final float FRAME_BUFFER_WIDTH = 800;
-    private final float FRAME_BUFFER_HEIGHT = 600;
+    private final float FRAME_BUFFER_WIDTH = 600;
+    private final float FRAME_BUFFER_HEIGHT = 800;
 
     private LoopFw loopFw;
     private GraphicsFw graphicsFw;
-
     private TouchListenerFw touchListenerFw;
     private Display display;
     private Point sizeDisplay;
@@ -33,6 +33,7 @@ public class CoreFw extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
 
         sizeDisplay = new Point();
         display = getWindowManager().getDefaultDisplay();
@@ -50,6 +51,7 @@ public class CoreFw extends AppCompatActivity {
         stateOnResume = false;
 
         setContentView(loopFw);
+
     }
 
     public CoreFw() {
@@ -78,6 +80,7 @@ public class CoreFw extends AppCompatActivity {
     public TouchListenerFw getTouchListenerFw() {
         return touchListenerFw;
     }
+
     public void setScene(SceneFw sceneFw) {
         if (sceneFw == null) {
             throw new IllegalArgumentException("Невозможно загрузить сцену");
@@ -93,7 +96,7 @@ public class CoreFw extends AppCompatActivity {
         return sceneFw;
     }
 
-    public SceneFw getStartScene() throws IOException {
+    public SceneFw getStartScene() {
         return sceneFw;
     }
 }

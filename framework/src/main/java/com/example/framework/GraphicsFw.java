@@ -57,15 +57,23 @@ public class GraphicsFw {
         return frameBufferGame.getHeight();
     }
 
-    public Bitmap newTexture(String fileName) throws IOException {
+    public Bitmap newTexture(String fileName) {
         InputStream inputStream = null;
-        inputStream = assetManagerGame.open(fileName);
+        try {
+            inputStream = assetManagerGame.open(fileName);
+        } catch (IOException e) {
+            throw new RuntimeException("Невозможно открыть файл");
+        }
         textureGame = BitmapFactory.decodeStream(inputStream);
         if (textureGame == null) {
             throw new RuntimeException("Невозможно загрузить файл: " + fileName);
         }
         if (inputStream != null) {
-            inputStream.close();
+            try {
+                inputStream.close();
+            } catch (IOException e) {
+                throw new RuntimeException("Невозможно закрыть файл");
+            }
         }
         return textureGame;
     }

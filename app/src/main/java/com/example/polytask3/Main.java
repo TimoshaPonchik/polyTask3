@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class Main extends CoreFw {
 
-    public SceneFw getStartScene() throws IOException {
+    public SceneFw getStartScene() {
         //Инициализируем loaderAssets
         //Когда наша программа запускается мы запускаем loader, загрузит все необходимые ресурсы в нашу игру,
         // а потом запустится главная сцена
