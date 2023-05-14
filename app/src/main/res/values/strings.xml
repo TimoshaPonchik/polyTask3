@@ -9,4 +9,8 @@
 
 <!--    GameScene-->
     <string name="txt_gameScene_stateReady_ready">Вы готовы?</string>
+
+<!--    HUD-->
+    <string name="txt_HUD_coinsCollected">Coins</string>
+    <string name="txt_HUD_currentHealth">Lives</string>
 </resources>

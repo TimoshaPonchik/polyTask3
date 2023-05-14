@@ -16,8 +16,8 @@ public class ObjectFw {
     protected int y;
     protected double speed;
 
-    Rect hitBox;
-    double radius; // для определения столкновений
+    protected Rect hitBox;
+    protected double radius; // для определения столкновений
 
     public int getMaxScreenX() {
         return maxScreenX;

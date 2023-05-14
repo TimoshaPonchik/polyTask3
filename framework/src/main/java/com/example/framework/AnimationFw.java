@@ -24,6 +24,13 @@ public class AnimationFw {
     //Данный метод нужен для запуска анимации
     public void runAnimation() {
         delayIndex++;
+        if (delayIndex > speedAnimation) {
+            delayIndex = 0;
+            nextFrame();
+        }
+    }
+
+    private void nextFrame() {
         switch (countFrames) {
             case (0):
                 sprite = sprite1;
