@@ -15,6 +15,8 @@ public class CollisionDetect {
     static double dy;
 
     static double distanceObjects;
+    static double distanceObjectsCollision;
+    static double sub = 0.0;
 
     public static boolean collisionDetect(ObjectFw object1, ObjectFw object2) {
         object1X = object1.getHitBox().centerX();
@@ -30,10 +32,15 @@ public class CollisionDetect {
         dy = object1Y - object2Y;
 
         distanceObjects = Math.sqrt(dx * dx + dy * dy);
-        if (distanceObjects < (radiusObject1 + radiusObject2) + 8) {
+        if (distanceObjects < (radiusObject1 + radiusObject2)) {
+            distanceObjectsCollision = distanceObjects;
             return true;
         }
         return false;
     }
 
+    public static double collisionSub() {
+        sub = radiusObject1 + radiusObject2 - distanceObjectsCollision;
+        return sub;
+    }
 }

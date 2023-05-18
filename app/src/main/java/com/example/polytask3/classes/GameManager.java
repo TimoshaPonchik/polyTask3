@@ -17,6 +17,8 @@ public class GameManager {
 
     private int coinsCollected;
     private int currentHealth;
+    private int getCurrentMovementX;
+    private int getCurrentMovementY;
     MainPlayer mainPlayer;
     Wall wall;
     HUD hud;
@@ -29,14 +31,15 @@ public class GameManager {
         minScreenY = hud.getHEIGHT_HUD();
         minScreenX = 0;
         mainPlayer = new MainPlayer(coreFw, maxScreenX, maxScreenY, hud.getHEIGHT_HUD() * 2);
+        getCurrentMovementX = mainPlayer.getCurrentMovementX();
+        getCurrentMovementY = mainPlayer.getCurrentMovementY();
+        generatorLevelOne = new GeneratorLevelOne(sceneWidth, sceneHeight, minScreenY, getCurrentMovementX, getCurrentMovementY);
         wall = new Wall(maxScreenX, maxScreenY, hud.getHEIGHT_HUD(), 0);
-        generatorLevelOne = new GeneratorLevelOne(sceneWidth, sceneHeight, minScreenY);
     }
 
     public void update() {
         mainPlayer.update();
         wall.update();
-
         coinsCollected = mainPlayer.getCoinsCollected();
         currentHealth = mainPlayer.getCurrentHealth();
 

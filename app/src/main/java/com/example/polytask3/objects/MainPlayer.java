@@ -2,9 +2,11 @@ package com.example.polytask3.objects;
 
 import android.graphics.Rect;
 
+import com.example.framework.CollisionDetect;
 import com.example.framework.CoreFw;
 import com.example.framework.GraphicsFw;
 import com.example.framework.ObjectFw;
+import com.example.polytask3.mapLevelGenerator.GeneratorLevelOne;
 import com.example.polytask3.utilits.UtilResource;
 import com.example.framework.AnimationFw;
 
@@ -29,6 +31,8 @@ public class MainPlayer extends ObjectFw {
     //принимаем coreFw для обработки свайпа пользователем
     public int currentHealth;
     private int coinsCollected;
+    public int currentMovementX = 0;
+    public int currentMovementY = 0;
 
     public MainPlayer(CoreFw coreFw, int maxScreenX, int maxScreenY, int minScreenY) {
         currentHealth = 3;
@@ -37,7 +41,6 @@ public class MainPlayer extends ObjectFw {
         x = (maxScreenX - UtilResource.spritePlayer.get(0).getWidth()) / 2;
         y = (maxScreenY - UtilResource.spritePlayer.get(0).getHeight()) / 2;
         boosting = false;
-
         radius = UtilResource.spritePlayer.get(0).getWidth() / 2;
 
         this.coreFw = coreFw;
@@ -53,7 +56,8 @@ public class MainPlayer extends ObjectFw {
     }
 
     public void update() {
-
+//        currentY = y;
+//        currentX = x;
         if (speed != 0) {
             movement = true;
         } else movement = false;
@@ -74,42 +78,36 @@ public class MainPlayer extends ObjectFw {
             if (getSwipesCoord[0] > SWIPE_DISTANCE_THRESHOLD) {
                 if (hit && lastLeft) {
                     stopBoosting();
+                    x += CollisionDetect.collisionSub() + 2;
                 } else {
-                    startBoosting();
                     x -= speed;
-                    lastLeft = true;
-                    lastRight = false;
                 }
+                lastLeft = true;
+                lastRight = false;
+
             } else if (getSwipesCoord[0] < -1 * SWIPE_DISTANCE_THRESHOLD) {
                 if (hit && lastRight) {
                     stopBoosting();
-                } else {
-                    startBoosting();
-                    x += speed;
-                    lastLeft = false;
-                    lastRight = true;
-                }
+                    x -= CollisionDetect.collisionSub() + 2;
+                } else x += speed;
+                lastLeft = false;
+                lastRight = true;
             }
         } else {
             if (getSwipesCoord[1] < -1 * SWIPE_DISTANCE_THRESHOLD) {
                 if (hit && lastDown) {
                     stopBoosting();
-                } else {
-                    startBoosting();
-                    y += speed;
-                    lastUp = false;
-                    lastDown = true;
-                }
+                    y -= CollisionDetect.collisionSub() + 2;
+                } else y += speed;
+                lastUp = false;
+                lastDown = true;
             } else if (getSwipesCoord[1] > SWIPE_DISTANCE_THRESHOLD) {
                 if (hit && lastUp) {
                     stopBoosting();
-                } else {
-                    System.out.println(y);
-                    startBoosting();
-                    y -= speed;
-                    lastUp = true;
-                    lastDown = false;
-                }
+                    y += CollisionDetect.collisionSub() + 2;
+                } else y -= speed;
+                lastUp = true;
+                lastDown = false;
             }
         }
 
@@ -118,29 +116,41 @@ public class MainPlayer extends ObjectFw {
         }
 
         if (x > maxScreenX) {
-            x = maxScreenX;
-            stopBoosting();
+            x = minScreenX;
+            currentMovementX++;
+
         }
         if (x < minScreenX) {
-            x = minScreenX;
-            stopBoosting();
+            x = maxScreenX;
+            currentMovementX--;
         }
 
 
         if (y < minScreenY) {
-            y = minScreenY;
-            stopBoosting();
+            y = maxScreenY;
+            currentMovementY++;
         }
         if (y > maxScreenY) {
-            y = maxScreenY;
-            stopBoosting();
+            y = minScreenY;
+            currentMovementY--;
         }
+        hit = false;
+        new GeneratorLevelOne(maxScreenX, maxScreenY, minScreenY, currentMovementX, currentMovementY);
         //запускаем анимацию
         if (boosting) {
             animMainPlayerBoost.runAnimation();
         } else animSpriteMainPlayer.runAnimation();
         hitBox = new Rect(x, y, UtilResource.spritePlayer.get(0).getWidth(),
                 UtilResource.spritePlayer.get(0).getHeight());
+    }
+
+
+    public int getCurrentMovementX() {
+        return currentMovementX;
+    }
+
+    public int getCurrentMovementY() {
+        return currentMovementY;
     }
 
     private void startBoosting() {
