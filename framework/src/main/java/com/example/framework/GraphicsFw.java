@@ -24,7 +24,7 @@ public class GraphicsFw {
         this.paintGame = new Paint();
     }
 
-    public void clearScene(int colorRGB) {
+        public void clearScene(int colorRGB) {
         canvasGame.drawRGB(colorRGB, colorRGB, colorRGB);
     }
 

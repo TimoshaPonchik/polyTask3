@@ -135,7 +135,7 @@ public class MainPlayer extends ObjectFw {
             currentMovementY--;
         }
         hit = false;
-        new GeneratorLevelOne(maxScreenX, maxScreenY, minScreenY, currentMovementX, currentMovementY);
+        new GeneratorLevelOne(maxScreenX, maxScreenY, minScreenY);
         //запускаем анимацию
         if (boosting) {
             animMainPlayerBoost.runAnimation();

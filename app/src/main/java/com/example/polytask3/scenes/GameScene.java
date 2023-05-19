@@ -98,7 +98,7 @@ public class GameScene extends SceneFw {
     private void drawingStateReady() {
         //изначально игра будет в состоянии READY, поэтому мы обращаемся к graphicsFw, которая работает с графикой и задаем графику
         graphicsFw.clearScene(Color.BLACK);
-        graphicsFw.drawText(coreFw.getString(R.string.txt_gameScene_stateReady_ready), 250, 300, Color.WHITE, 60, null);
+        graphicsFw.drawText(coreFw.getString(R.string.txt_gameScene_stateReady_ready), sceneWidth / 2 - 150, 300, Color.WHITE, 60, null);
     }
     private void updateStateReady() {
         if (coreFw.getTouchListenerFw().getTouchUp(0, sceneHeight, sceneWidth, sceneHeight)) {

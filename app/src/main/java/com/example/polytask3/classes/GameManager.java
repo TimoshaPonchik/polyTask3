@@ -19,6 +19,8 @@ public class GameManager {
     private int currentHealth;
     private int getCurrentMovementX;
     private int getCurrentMovementY;
+    private int currentX;
+    private int currentY;
     MainPlayer mainPlayer;
     Wall wall;
     HUD hud;
@@ -31,20 +33,29 @@ public class GameManager {
         minScreenY = hud.getHEIGHT_HUD();
         minScreenX = 0;
         mainPlayer = new MainPlayer(coreFw, maxScreenX, maxScreenY, hud.getHEIGHT_HUD() * 2);
-        getCurrentMovementX = mainPlayer.getCurrentMovementX();
-        getCurrentMovementY = mainPlayer.getCurrentMovementY();
-        generatorLevelOne = new GeneratorLevelOne(sceneWidth, sceneHeight, minScreenY, getCurrentMovementX, getCurrentMovementY);
-        wall = new Wall(maxScreenX, maxScreenY, hud.getHEIGHT_HUD(), 0);
+
+        generatorLevelOne = new GeneratorLevelOne(sceneWidth, sceneHeight, minScreenY);
+        wall = new Wall(maxScreenX, maxScreenY, hud.getHEIGHT_HUD(), -100);
     }
 
     public void update() {
         mainPlayer.update();
+        getCurrentMovementX = mainPlayer.getCurrentMovementX();
+        getCurrentMovementY = mainPlayer.getCurrentMovementY();
+        if (currentX != getCurrentMovementX || currentY != getCurrentMovementY) {
+            currentX = getCurrentMovementX;
+            currentY = getCurrentMovementY;
+            generatorLevelOne.setCurrentX(currentX);
+            generatorLevelOne.setCurrentY(currentY);
+            generatorLevelOne.update(true);
+        } else {
+            generatorLevelOne.update(false);
+        }
         wall.update();
         coinsCollected = mainPlayer.getCoinsCollected();
         currentHealth = mainPlayer.getCurrentHealth();
 
         hud.update(coinsCollected, currentHealth);
-        generatorLevelOne.update();
 
         checkHit();
     }
