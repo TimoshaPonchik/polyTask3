@@ -22,6 +22,7 @@ public class TouchListenerFw implements View.OnTouchListener {
     boolean isTouchMoved;
     boolean isTouchPressed;
     boolean isTouchReleased;
+    boolean movement;
 
     //ширина и высота сцены
     float sceneWidth;
@@ -56,23 +57,25 @@ public class TouchListenerFw implements View.OnTouchListener {
             isTouchMoved = false;
             // switch - условный оператор, который дает возможность сравнивать переменную со списком значений
             //ход работы: мы получили какое-то событие, оператором switch мы проверяем
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    touchX = event.getX() * sceneWidth;
-                    touchY = event.getY() * sceneHeight;
-                    isTouchDown = true;
-                    isTouchUp = false;
-                    isTouchMoved = false;
-                    break;
-                case MotionEvent.ACTION_UP:
-                    touchX = event.getX() * sceneWidth;
-                    touchY = event.getY() * sceneHeight;
-                    isTouchDown = false;
-                    isTouchUp = true;
-                    isTouchMoved = false;
-                    break;
-            }
+            if (!movement) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        touchX = event.getX() * sceneWidth;
+                        touchY = event.getY() * sceneHeight;
+                        isTouchDown = true;
+                        isTouchUp = false;
+                        isTouchMoved = false;
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        touchX = event.getX() * sceneWidth;
+                        touchY = event.getY() * sceneHeight;
+                        isTouchDown = false;
+                        isTouchUp = true;
+                        isTouchMoved = false;
+                        break;
+                }
 
+            }
         }
         return true;
     }
@@ -101,8 +104,6 @@ public class TouchListenerFw implements View.OnTouchListener {
     }
 
     public boolean getSwiped() {
-
-
         if (isTouchDown) {
             tempTouchX = touchX;
             tempTouchY = touchY;
@@ -112,7 +113,6 @@ public class TouchListenerFw implements View.OnTouchListener {
         if (isTouchUp) {
             deltaX = tempTouchX - touchX;
             deltaY = tempTouchY - touchY;
-
             isTouchUp = false;
             return Math.abs(deltaX) > SWIPE_DISTANCE_THRESHOLD || Math.abs(deltaY) > SWIPE_DISTANCE_THRESHOLD;
         }
@@ -124,5 +124,9 @@ public class TouchListenerFw implements View.OnTouchListener {
         deltas[0] = deltaX;
         deltas[1] = deltaY;
         return deltas;
+    }
+
+    public void setMovement(boolean movement) {
+        this.movement = movement;
     }
 }

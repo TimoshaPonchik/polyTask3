@@ -8,5 +8,7 @@ public class UtilResource {
     public static Bitmap textureAtlas;
     public static ArrayList<Bitmap> spritePlayer;
     public static ArrayList<Bitmap> spritePlayerBoost;
+    public static ArrayList<Bitmap> spriteHitPlayer;
     public static ArrayList<Bitmap> spriteWall;
+    public static ArrayList<Bitmap> spriteEnemy;
 }

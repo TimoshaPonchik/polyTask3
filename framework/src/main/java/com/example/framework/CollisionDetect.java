@@ -30,7 +30,6 @@ public class CollisionDetect {
 
         dx = object1X - object2X;
         dy = object1Y - object2Y;
-
         distanceObjects = Math.sqrt(dx * dx + dy * dy);
         if (distanceObjects < (radiusObject1 + radiusObject2)) {
             distanceObjectsCollision = distanceObjects;

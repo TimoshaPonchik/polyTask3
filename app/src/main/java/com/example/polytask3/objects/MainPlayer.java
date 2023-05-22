@@ -6,7 +6,7 @@ import com.example.framework.CollisionDetect;
 import com.example.framework.CoreFw;
 import com.example.framework.GraphicsFw;
 import com.example.framework.ObjectFw;
-import com.example.polytask3.mapLevelGenerator.GeneratorLevelOne;
+import com.example.polytask3.mapLevelGenerator.GeneratorWallLevelOne;
 import com.example.polytask3.utilits.UtilResource;
 import com.example.framework.AnimationFw;
 
@@ -14,16 +14,19 @@ public class MainPlayer extends ObjectFw {
     final int MAX_SPEED = 8;
     AnimationFw animSpriteMainPlayer;
     AnimationFw animMainPlayerBoost;
+    AnimationFw animMainPlayerDeath;
     CoreFw coreFw;
 
     boolean boosting;
     boolean hit;
     boolean movement = false;
+    boolean gameOver = false;
 
     boolean lastUp;
     boolean lastDown;
     boolean lastLeft;
     boolean lastRight;
+    boolean deathLoop;
     private static final int SWIPE_DISTANCE_THRESHOLD = 100;
 
 
@@ -38,8 +41,8 @@ public class MainPlayer extends ObjectFw {
         currentHealth = 3;
         coinsCollected = 0;
         speed = 0;
-        x = (maxScreenX - UtilResource.spritePlayer.get(0).getWidth()) / 2;
-        y = (maxScreenY - UtilResource.spritePlayer.get(0).getHeight()) / 2;
+        x = 2 * 64;
+        y = 3 * 64;
         boosting = false;
         radius = UtilResource.spritePlayer.get(0).getWidth() / 2;
 
@@ -53,95 +56,109 @@ public class MainPlayer extends ObjectFw {
 
         animMainPlayerBoost = new AnimationFw(1, UtilResource.spritePlayerBoost.get(0),
                 UtilResource.spritePlayerBoost.get(0));
+
+        animMainPlayerDeath = new AnimationFw(1, UtilResource.spriteHitPlayer.get(0),
+                UtilResource.spriteHitPlayer.get(1));
     }
 
     public void update() {
-//        currentY = y;
-//        currentX = x;
-        if (speed != 0) {
-            movement = true;
-        } else movement = false;
 
-        if (coreFw.getTouchListenerFw().getSwiped()) {
-            startBoosting();
-        } //else if () {
-        //startBoosting();
-        //}
-        if (!movement)
-            getSwipesCoord = coreFw.getTouchListenerFw().swipeDir();
+        if (!gameOver) {
+            movement = speed != 0;
+            coreFw.getTouchListenerFw().setMovement(movement);
 
-        if (boosting) { //регулируем скорость
-            speed += 8;
-        } else speed = 0;
+            if (coreFw.getTouchListenerFw().getSwiped()) {
+                startBoosting();
+            }
 
-        if (Math.abs(getSwipesCoord[0]) > Math.abs(getSwipesCoord[1])) {
-            if (getSwipesCoord[0] > SWIPE_DISTANCE_THRESHOLD) {
-                if (hit && lastLeft) {
-                    stopBoosting();
-                    x += CollisionDetect.collisionSub() + 2;
-                } else {
-                    x -= speed;
+            if (!movement) {
+                getSwipesCoord = coreFw.getTouchListenerFw().swipeDir();
+            }
+
+            if (boosting) { //регулируем скорость
+                speed += 8;
+            } else speed = 0;
+
+            if (Math.abs(getSwipesCoord[0]) > Math.abs(getSwipesCoord[1])) {
+                if (getSwipesCoord[0] > SWIPE_DISTANCE_THRESHOLD) {
+                    if (hit && lastLeft) {
+                        stopBoosting();
+                        x += CollisionDetect.collisionSub();
+                    } else {
+                        x -= speed;
+                        lastLeft = true;
+                        lastRight = false;
+                    }
+
+                } else if (getSwipesCoord[0] < -1 * SWIPE_DISTANCE_THRESHOLD) {
+                    if (hit && lastRight) {
+                        stopBoosting();
+                        x -= CollisionDetect.collisionSub();
+                    } else {
+                        x += speed;
+                        lastLeft = false;
+                        lastRight = true;
+                    }
                 }
-                lastLeft = true;
-                lastRight = false;
-
-            } else if (getSwipesCoord[0] < -1 * SWIPE_DISTANCE_THRESHOLD) {
-                if (hit && lastRight) {
-                    stopBoosting();
-                    x -= CollisionDetect.collisionSub() + 2;
-                } else x += speed;
-                lastLeft = false;
-                lastRight = true;
+            } else {
+                if (getSwipesCoord[1] < -1 * SWIPE_DISTANCE_THRESHOLD) {
+                    if (hit && lastDown) {
+                        stopBoosting();
+                        y -= CollisionDetect.collisionSub();
+                    } else {
+                        y += speed;
+                        lastUp = false;
+                        lastDown = true;
+                    }
+                } else if (getSwipesCoord[1] > SWIPE_DISTANCE_THRESHOLD) {
+                    if (hit && lastUp) {
+                        stopBoosting();
+                        y += CollisionDetect.collisionSub();
+                    } else {
+                        y -= speed;
+                        lastUp = true;
+                        lastDown = false;
+                    }
+                }
             }
-        } else {
-            if (getSwipesCoord[1] < -1 * SWIPE_DISTANCE_THRESHOLD) {
-                if (hit && lastDown) {
-                    stopBoosting();
-                    y -= CollisionDetect.collisionSub() + 2;
-                } else y += speed;
-                lastUp = false;
-                lastDown = true;
-            } else if (getSwipesCoord[1] > SWIPE_DISTANCE_THRESHOLD) {
-                if (hit && lastUp) {
-                    stopBoosting();
-                    y += CollisionDetect.collisionSub() + 2;
-                } else y -= speed;
-                lastUp = true;
-                lastDown = false;
+
+            if (speed > MAX_SPEED) {
+                speed = MAX_SPEED;
             }
-        }
 
-        if (speed > MAX_SPEED) {
-            speed = MAX_SPEED;
-        }
+            if (x > maxScreenX) {
+                x = minScreenX;
+                currentMovementX++;
 
-        if (x > maxScreenX) {
-            x = minScreenX;
-            currentMovementX++;
-
-        }
-        if (x < minScreenX) {
-            x = maxScreenX;
-            currentMovementX--;
-        }
+            }
+            if (x < minScreenX) {
+                x = maxScreenX;
+                currentMovementX--;
+            }
 
 
-        if (y < minScreenY) {
-            y = maxScreenY;
-            currentMovementY++;
-        }
-        if (y > maxScreenY) {
-            y = minScreenY;
-            currentMovementY--;
+            if (y < minScreenY) {
+                y = maxScreenY;
+                currentMovementY++;
+            }
+            if (y > maxScreenY) {
+                y = minScreenY;
+                currentMovementY--;
+            }
         }
         hit = false;
-        new GeneratorLevelOne(maxScreenX, maxScreenY, minScreenY);
+        new GeneratorWallLevelOne(maxScreenX, maxScreenY, minScreenY);
         //запускаем анимацию
-        if (boosting) {
-            animMainPlayerBoost.runAnimation();
-        } else animSpriteMainPlayer.runAnimation();
+        if (currentHealth == 0) {
+            animMainPlayerDeath.runAnimation();
+        } else {
+            if (boosting) {
+                animMainPlayerBoost.runAnimation();
+            } else animSpriteMainPlayer.runAnimation();
+        }
         hitBox = new Rect(x, y, UtilResource.spritePlayer.get(0).getWidth(),
                 UtilResource.spritePlayer.get(0).getHeight());
+        deathLoop = true;
     }
 
 
@@ -162,10 +179,16 @@ public class MainPlayer extends ObjectFw {
     }
 
     public void drawing(GraphicsFw graphicsFw) {
-        if (boosting) {
-            animMainPlayerBoost.drawingAnimation(graphicsFw, x, y);
+
+        if (currentHealth < 1) {
+            gameOver = true;
+            animMainPlayerDeath.drawingAnimation(graphicsFw, x, y);
         } else {
-            animSpriteMainPlayer.drawingAnimation(graphicsFw, x, y);
+            if (boosting) {
+                animMainPlayerBoost.drawingAnimation(graphicsFw, x, y);
+            } else {
+                animSpriteMainPlayer.drawingAnimation(graphicsFw, x, y);
+            }
         }
     }
 
@@ -179,5 +202,19 @@ public class MainPlayer extends ObjectFw {
 
     public void hitWall() {
         hit = true;
+    }
+
+    public void death() {
+            if (deathLoop) {
+                    currentMovementX = 0;
+                currentMovementY = 0;
+                deathLoop = false;
+                if (currentHealth > 0) currentHealth--;
+                if (currentHealth > 0) {
+                    speed = 0;
+                    x = 2 * 64;
+                    y = 3 * 64;
+                }
+            }
     }
 }

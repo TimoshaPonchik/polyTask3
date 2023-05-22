@@ -12,11 +12,25 @@ public class LoaderAssets {
         loadTexture(graphicsFw);
         loadSpritePlayer(graphicsFw);
         loadSpriteBlock(graphicsFw);
+        loadSpriteEnemy(graphicsFw);
+        loadHitPlayer(graphicsFw);
+    }
+
+    private void loadHitPlayer(GraphicsFw graphicsFw) {
+        UtilResource.spriteHitPlayer = new ArrayList<>();
+        UtilResource.spriteHitPlayer.add(graphicsFw.newSprite(UtilResource.textureAtlas, 9 * 64, 6 * 64, 64, 64));
+        UtilResource.spriteHitPlayer.add(graphicsFw.newSprite(UtilResource.textureAtlas, 10 * 64, 6 * 64, 64, 64));
+    }
+
+    private void loadSpriteEnemy(GraphicsFw graphicsFw) {
+        UtilResource.spriteEnemy = new ArrayList<>();
+        UtilResource.spriteEnemy.add(graphicsFw.newSprite(UtilResource.textureAtlas, 8 * 64, 64, 64, 64));
+        UtilResource.spriteEnemy.add(graphicsFw.newSprite(UtilResource.textureAtlas, 9 * 64, 64, 64, 64));
     }
 
     private void loadSpriteBlock(GraphicsFw graphicsFw) {
         UtilResource.spriteWall = new ArrayList<>();
-        UtilResource.spriteWall.add(graphicsFw.newSprite(UtilResource.textureAtlas, 384, 384, 64, 64));
+        UtilResource.spriteWall.add(graphicsFw.newSprite(UtilResource.textureAtlas, 6 * 64, 6 * 64, 64, 64));
     }
 
     //В arrayList по очереди добавили все картинки из Atlas
@@ -25,8 +39,8 @@ public class LoaderAssets {
         UtilResource.spritePlayer = new ArrayList<>();
         UtilResource.spritePlayerBoost = new ArrayList<>();
 
-        UtilResource.spritePlayer.add(graphicsFw.newSprite(UtilResource.textureAtlas, 192, 64, 64, 64));
-        UtilResource.spritePlayer.add(graphicsFw.newSprite(UtilResource.textureAtlas, 256, 64, 64, 64));
+        UtilResource.spritePlayer.add(graphicsFw.newSprite(UtilResource.textureAtlas, 3 * 64, 64, 64, 64));
+        UtilResource.spritePlayer.add(graphicsFw.newSprite(UtilResource.textureAtlas, 4 * 64, 64, 64, 64));
 
         UtilResource.spritePlayerBoost.add(graphicsFw.newSprite(UtilResource.textureAtlas, 448, 64, 64, 64));
     }
