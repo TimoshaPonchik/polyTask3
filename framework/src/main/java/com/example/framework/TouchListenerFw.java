@@ -30,7 +30,7 @@ public class TouchListenerFw implements View.OnTouchListener {
 
     float deltaX;
     float deltaY;
-    private static final int SWIPE_DISTANCE_THRESHOLD = 100;
+    private static final int SWIPE_DISTANCE_THRESHOLD = 30;
 
     //конструктор, который принимает view, sceneWidth, sceneHeight
     public TouchListenerFw(@NonNull View view, float sceneWidth, float sceneHeight) {

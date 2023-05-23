@@ -17,7 +17,7 @@ public class GameManager {
     private int minScreenX;
     private int minScreenY;
 
-    private int coinsCollected;
+    private int timePassed;
     private int currentHealth;
     private int getCurrentMovementX;
     private int getCurrentMovementY;
@@ -31,8 +31,9 @@ public class GameManager {
     GeneratorWallLevelOne wallGeneratorLevelOne;
     GeneratorEnemyLevelOne enemyGeneratorLevelOne;
 
+//статичная, чтобы можно было без создания объекта управлять этой переменной
+    public static boolean gameOver;
     public GameManager(CoreFw coreFw, int sceneWidth, int sceneHeight) {
-        System.out.println("asas");
         hud = new HUD(coreFw);
         this.maxScreenX = sceneWidth;
         this.maxScreenY = sceneHeight;
@@ -43,6 +44,7 @@ public class GameManager {
         enemyGeneratorLevelOne = new GeneratorEnemyLevelOne(sceneWidth, sceneHeight, minScreenY);
         wall = new Wall(maxScreenX, maxScreenY, hud.getHEIGHT_HUD(), -100);
         enemy = new Enemy(maxScreenX, maxScreenY, hud.getHEIGHT_HUD(), -100, 0, coreFw);
+        gameOver = false;
     }
 
     public void update() {
@@ -65,10 +67,10 @@ public class GameManager {
         wall.update();
         enemy.update();
         checkHit();
-        coinsCollected = mainPlayer.getCoinsCollected();
+        timePassed = mainPlayer.getPassedTime();
         currentHealth = mainPlayer.getCurrentHealth();
 
-        hud.update(coinsCollected, currentHealth);
+        hud.update(timePassed, currentHealth);
 
     }
 

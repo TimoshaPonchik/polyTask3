@@ -64,7 +64,7 @@ public class GeneratorEnemyLevelOne extends ObjectFw {
 
         if (currentX == 0 && currentY == -1) {
             int[][] levelOneEnemyArrCoord = new int[][]{
-                    {3, 3, 2}};
+                    {1,2,2},{3,4,2}, {8,8,2}};
             enemyGenerator(levelOneEnemyArrCoord);
         }
     }

@@ -6,6 +6,9 @@ import com.example.framework.CollisionDetect;
 import com.example.framework.CoreFw;
 import com.example.framework.GraphicsFw;
 import com.example.framework.ObjectFw;
+import com.example.framework.utilits.UtilTime;
+import com.example.framework.utilits.UtilTimerDelay;
+import com.example.polytask3.classes.GameManager;
 import com.example.polytask3.mapLevelGenerator.GeneratorWallLevelOne;
 import com.example.polytask3.utilits.UtilResource;
 import com.example.framework.AnimationFw;
@@ -27,25 +30,27 @@ public class MainPlayer extends ObjectFw {
     boolean lastLeft;
     boolean lastRight;
     boolean deathLoop;
-    private static final int SWIPE_DISTANCE_THRESHOLD = 100;
+    private static final int SWIPE_DISTANCE_THRESHOLD = 30;
 
 
     float[] getSwipesCoord = new float[2];
     //принимаем coreFw для обработки свайпа пользователем
     public int currentHealth;
-    private int coinsCollected;
+    private int passedTime;
     public int currentMovementX = 0;
     public int currentMovementY = 0;
+    UtilTimerDelay timerOnGameOver;
+    UtilTime timeTimer;
 
     public MainPlayer(CoreFw coreFw, int maxScreenX, int maxScreenY, int minScreenY) {
         currentHealth = 3;
-        coinsCollected = 0;
         speed = 0;
         x = 2 * 64;
         y = 3 * 64;
         boosting = false;
         radius = UtilResource.spritePlayer.get(0).getWidth() / 2;
-
+        timerOnGameOver = new UtilTimerDelay();
+        timeTimer = new UtilTime();
         this.coreFw = coreFw;
         this.maxScreenX = maxScreenX - UtilResource.spritePlayer.get(0).getWidth();
         this.maxScreenY = maxScreenY - UtilResource.spritePlayer.get(0).getHeight();
@@ -59,10 +64,11 @@ public class MainPlayer extends ObjectFw {
 
         animMainPlayerDeath = new AnimationFw(1, UtilResource.spriteHitPlayer.get(0),
                 UtilResource.spriteHitPlayer.get(1));
+            timeTimer.startTime();
     }
 
     public void update() {
-
+        passedTime = 1000 - timeTimer.timeDelay();
         if (!gameOver) {
             movement = speed != 0;
             coreFw.getTouchListenerFw().setMovement(movement);
@@ -149,7 +155,7 @@ public class MainPlayer extends ObjectFw {
         hit = false;
         new GeneratorWallLevelOne(maxScreenX, maxScreenY, minScreenY);
         //запускаем анимацию
-        if (currentHealth == 0) {
+        if (gameOver) {
             animMainPlayerDeath.runAnimation();
         } else {
             if (boosting) {
@@ -180,9 +186,13 @@ public class MainPlayer extends ObjectFw {
 
     public void drawing(GraphicsFw graphicsFw) {
 
-        if (currentHealth < 1) {
-            gameOver = true;
+        if (gameOver) {
+            movement = false;
             animMainPlayerDeath.drawingAnimation(graphicsFw, x, y);
+            if (timerOnGameOver.timerDelay(2)) {
+                coreFw.getTouchListenerFw().setMovement(false);
+                GameManager.gameOver = true;
+            }
         } else {
             if (boosting) {
                 animMainPlayerBoost.drawingAnimation(graphicsFw, x, y);
@@ -192,8 +202,8 @@ public class MainPlayer extends ObjectFw {
         }
     }
 
-    public int getCoinsCollected() {
-        return coinsCollected;
+    public int getPassedTime() {
+        return passedTime;
     }
 
     public int getCurrentHealth() {
@@ -205,16 +215,20 @@ public class MainPlayer extends ObjectFw {
     }
 
     public void death() {
-            if (deathLoop) {
-                    currentMovementX = 0;
+        if (deathLoop && currentHealth > 0) {
+            deathLoop = false;
+            currentHealth--;
+            if (currentHealth > 0) {
+                currentMovementX = 0;
                 currentMovementY = 0;
-                deathLoop = false;
-                if (currentHealth > 0) currentHealth--;
-                if (currentHealth > 0) {
-                    speed = 0;
-                    x = 2 * 64;
-                    y = 3 * 64;
-                }
+                x = 2 * 64;
+                y = 3 * 64;
+                stopBoosting();
+                movement = false;
+            } else {
+                gameOver = true;
+                timerOnGameOver.startTimer();
             }
+        }
     }
 }

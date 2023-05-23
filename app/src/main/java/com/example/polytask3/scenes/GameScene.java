@@ -1,8 +1,10 @@
 package com.example.polytask3.scenes;
 
 import android.graphics.Color;
+import android.widget.Switch;
 
 import com.example.framework.CoreFw;
+import com.example.framework.GraphicsFw;
 import com.example.framework.SceneFw;
 import com.example.polytask3.R;
 import com.example.polytask3.classes.GameManager;
@@ -49,17 +51,10 @@ public class GameScene extends SceneFw {
     }
 
 
-
-
-
-
-
-
     //
     @Override
     public void drawing() {
         graphicsFw.clearScene(Color.BLACK);
-
         if (gameState == gameState.READY) {
             drawingStateReady();
         }
@@ -78,12 +73,25 @@ public class GameScene extends SceneFw {
     }
 
     private void drawingStateGameOver() {
+        graphicsFw.clearScene(Color.BLACK);
+        graphicsFw.drawText(coreFw.getString(R.string.txt_gameScene_stateGameOver_gameOver), 250, 300, Color.WHITE, 60, null);
+        graphicsFw.drawText(coreFw.getString(R.string.txt_gameScene_stateGameOver_restart), 250, 360, Color.WHITE, 60, null);
+        graphicsFw.drawText(coreFw.getString(R.string.txt_gameScene_stateGameOver_exit), 250, 420, Color.WHITE, 60, null);
     }
+
     private void updateStateGameOver() {
+        if (coreFw.getTouchListenerFw().getTouchUp(250, 360, 100, 35)) {
+            coreFw.setScene(new MainMenuScene(coreFw));
+
+        }
+        if (coreFw.getTouchListenerFw().getTouchUp(250, 420, 100, 35)) {
+            coreFw.setScene(new MainMenuScene(coreFw));
+        }
     }
 
     private void drawingStatePause() {
     }
+
     private void updateStatePause() {
     }
 
@@ -91,8 +99,12 @@ public class GameScene extends SceneFw {
         graphicsFw.clearScene((Color.BLACK));
         gameManager.drawing(coreFw, graphicsFw);
     }
+
     private void updateStateRunning() {
         gameManager.update();
+        if (GameManager.gameOver) {
+            gameState = GameState.GAMEOVER;
+        }
     }
 
     private void drawingStateReady() {
@@ -100,6 +112,7 @@ public class GameScene extends SceneFw {
         graphicsFw.clearScene(Color.BLACK);
         graphicsFw.drawText(coreFw.getString(R.string.txt_gameScene_stateReady_ready), sceneWidth / 2 - 150, 300, Color.WHITE, 60, null);
     }
+
     private void updateStateReady() {
         if (coreFw.getTouchListenerFw().getTouchUp(0, sceneHeight, sceneWidth, sceneHeight)) {
             gameState = gameState.RUNNING;
