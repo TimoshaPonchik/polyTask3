@@ -1,20 +1,19 @@
 package com.example.polytask3.scenes;
 
 import android.graphics.Color;
-import android.widget.Switch;
 
 import com.example.framework.CoreFw;
-import com.example.framework.GraphicsFw;
 import com.example.framework.SceneFw;
 import com.example.polytask3.R;
 import com.example.polytask3.classes.GameManager;
+import com.example.polytask3.utilits.SettingsGame;
 
 public class GameScene extends SceneFw {
 
     //В игре будет несколько состояний (Ready,Running, Pause, Game Over)
     //этот класс отображает только игровую сцену
     enum GameState { //enum - перечисление, перечисления представляют набор логически связанных констант.
-        READY, RUNNING, PAUSE, GAMEOVER
+        READY, RUNNING, PAUSE, GAMEOVER, WIN
     }
 
     GameState gameState;
@@ -44,6 +43,9 @@ public class GameScene extends SceneFw {
             case GAMEOVER:
                 updateStateGameOver();
                 break;
+            case WIN:
+                updateStateWin();
+                break;
             default:
                 break;
         }
@@ -52,6 +54,7 @@ public class GameScene extends SceneFw {
 
 
     //
+
     @Override
     public void drawing() {
         graphicsFw.clearScene(Color.BLACK);
@@ -70,18 +73,32 @@ public class GameScene extends SceneFw {
         if (gameState == gameState.GAMEOVER) {
             drawingStateGameOver();
         }
+
+        if (gameState == gameState.WIN) {
+            drawingStateWin();
+        }
+    }
+    private void updateStateWin() {
+        if (coreFw.getTouchListenerFw().getTouchUp(0, sceneHeight, sceneWidth, sceneHeight)) {
+            SettingsGame.addScores(gameManager.getTimePassed());
+            coreFw.setScene(new MainMenuScene(coreFw));
+        }
+    }
+
+    private void drawingStateWin() {
+        graphicsFw.drawText(coreFw.getString(R.string.txt_gameScene_stateGameWin_gameWin), 100, 300, Color.WHITE, 60, null);
     }
 
     private void drawingStateGameOver() {
         graphicsFw.clearScene(Color.BLACK);
-        graphicsFw.drawText(coreFw.getString(R.string.txt_gameScene_stateGameOver_gameOver), 250, 300, Color.WHITE, 60, null);
-        graphicsFw.drawText(coreFw.getString(R.string.txt_gameScene_stateGameOver_restart), 250, 360, Color.WHITE, 60, null);
-        graphicsFw.drawText(coreFw.getString(R.string.txt_gameScene_stateGameOver_exit), 250, 420, Color.WHITE, 60, null);
+        graphicsFw.drawText(coreFw.getString(R.string.txt_gameScene_stateGameOver_gameOver), 100, 300, Color.WHITE, 60, null);
+        graphicsFw.drawText(coreFw.getString(R.string.txt_gameScene_stateGameOver_restart), 100, 360, Color.WHITE, 60, null);
+        graphicsFw.drawText(coreFw.getString(R.string.txt_gameScene_stateGameOver_exit), 100, 420, Color.WHITE, 60, null);
     }
 
     private void updateStateGameOver() {
         if (coreFw.getTouchListenerFw().getTouchUp(250, 360, 100, 35)) {
-            coreFw.setScene(new MainMenuScene(coreFw));
+            coreFw.setScene(new GameScene(coreFw));
 
         }
         if (coreFw.getTouchListenerFw().getTouchUp(250, 420, 100, 35)) {
@@ -104,6 +121,10 @@ public class GameScene extends SceneFw {
         gameManager.update();
         if (GameManager.gameOver) {
             gameState = GameState.GAMEOVER;
+        }
+
+        if (GameManager.gameWin) {
+            gameState = GameState.WIN;
         }
     }
 

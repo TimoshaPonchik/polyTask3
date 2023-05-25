@@ -24,6 +24,7 @@ public class MainPlayer extends ObjectFw {
     boolean hit;
     boolean movement = false;
     boolean gameOver = false;
+    boolean gameWin = false;
 
     boolean lastUp;
     boolean lastDown;
@@ -162,6 +163,12 @@ public class MainPlayer extends ObjectFw {
                 animMainPlayerBoost.runAnimation();
             } else animSpriteMainPlayer.runAnimation();
         }
+
+        if (currentMovementX == 1 && currentMovementY == -1) {
+            coreFw.getTouchListenerFw().setMovement(false);
+            GameManager.gameWin = true;
+        }
+
         hitBox = new Rect(x, y, UtilResource.spritePlayer.get(0).getWidth(),
                 UtilResource.spritePlayer.get(0).getHeight());
         deathLoop = true;

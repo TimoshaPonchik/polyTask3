@@ -5,7 +5,8 @@ import android.content.SharedPreferences;
 import com.example.framework.CoreFw;
 
 public class SettingsGame {
-    public static int[] scores = {5555, 4444, 3333, 2222, 1111};
+    public static int[] scores = {0, 0, 0, 0, 0};
+    public static final int scoreLines = 5;
 
     public static void saveSettings(CoreFw coreFw) {
         SharedPreferences.Editor editor = coreFw.getSharedPreferences().edit();
@@ -22,15 +23,22 @@ public class SettingsGame {
         }
     }
 
-    public static void addDistance(int values) {
-        for (int i = 0; i < 5; i++) {
-            if (scores[i] < values) {
-                for (int j = 4; j < 5; j--) {
-                    scores[i] = scores[j - 1];
+    public static void addScores(int values) {
+        int i = 0;
+        boolean checker = true;
+        while (i < scoreLines - 1) {
+            if (scores[i] < values && checker) {
+                for (int j = scoreLines - 1; j > i; j--) {
+                    scores[j] = scores[j - 1];
                 }
                 scores[i] = values;
-                break;
+                checker = false;
+            } else if (scores[i] == values && checker) {
+                scores[i] = values;
+                checker = false;
             }
+            i += 1;
         }
+
     }
 }

@@ -11,19 +11,11 @@ import com.example.polytask3.objects.MainPlayer;
 import com.example.polytask3.objects.Wall;
 
 public class GameManager {
-    //класс выполняет логику всей игры, руководит всей игрой (коллизии, удары итд...)
-    private int maxScreenX;
-    private int maxScreenY;
-    private int minScreenX;
-    private int minScreenY;
 
     private int timePassed;
     private int currentHealth;
-    private int getCurrentMovementX;
-    private int getCurrentMovementY;
     private int currentX;
     private int currentY;
-    private int[][] levelOneArrCoord;
     MainPlayer mainPlayer;
     Wall wall;
     Enemy enemy;
@@ -33,24 +25,35 @@ public class GameManager {
 
 //статичная, чтобы можно было без создания объекта управлять этой переменной
     public static boolean gameOver;
+    public static boolean gameWin;
     public GameManager(CoreFw coreFw, int sceneWidth, int sceneHeight) {
         hud = new HUD(coreFw);
-        this.maxScreenX = sceneWidth;
-        this.maxScreenY = sceneHeight;
-        minScreenY = hud.getHEIGHT_HUD();
-        minScreenX = 0;
-        mainPlayer = new MainPlayer(coreFw, maxScreenX, maxScreenY, hud.getHEIGHT_HUD() * 2);
+        //класс выполняет логику всей игры, руководит всей игрой (коллизии, удары итд...)
+        int minScreenY = hud.getHEIGHT_HUD();
+        mainPlayer = new MainPlayer(coreFw, sceneWidth, sceneHeight, hud.getHEIGHT_HUD() * 2);
         wallGeneratorLevelOne = new GeneratorWallLevelOne(sceneWidth, sceneHeight, minScreenY);
         enemyGeneratorLevelOne = new GeneratorEnemyLevelOne(sceneWidth, sceneHeight, minScreenY);
-        wall = new Wall(maxScreenX, maxScreenY, hud.getHEIGHT_HUD(), -100);
-        enemy = new Enemy(maxScreenX, maxScreenY, hud.getHEIGHT_HUD(), -100, 0, coreFw);
+        wall = new Wall(sceneWidth, sceneHeight, hud.getHEIGHT_HUD(), -100);
+        enemy = new Enemy(sceneWidth, sceneHeight, hud.getHEIGHT_HUD(), -100, 0, coreFw);
         gameOver = false;
+        gameWin = false;
+    }
+
+    public int getTimePassed() {
+        return timePassed;
+    }
+
+    public int getCurrentHealth() {
+        return currentHealth;
     }
 
     public void update() {
         mainPlayer.update();
-        getCurrentMovementX = mainPlayer.getCurrentMovementX();
-        getCurrentMovementY = mainPlayer.getCurrentMovementY();
+        int getCurrentMovementX = mainPlayer.getCurrentMovementX();
+        int getCurrentMovementY = mainPlayer.getCurrentMovementY();
+        if (gameWin) {
+            gameWin = true;
+        }
         if (currentX != getCurrentMovementX || currentY != getCurrentMovementY) {
             currentX = getCurrentMovementX;
             currentY = getCurrentMovementY;

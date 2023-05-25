@@ -4,14 +4,18 @@
 <!--    MainMenuScene-->
     <string name="txt_mainMenu_nameGame">Treasure Rush</string>
     <string name="txt_mainMenu_newGame">New Game</string>
-    <string name="txt_mainMenu_settings">Settings</string>
-    <string name="txt_mainMenu_exitGame">Exit</string>
+    <string name="txt_mainMenu_settings">Top scores</string>
+<!--    <string name="txt_mainMenu_exitGame">Exit</string>-->
 
 <!--    GameScene-->
     <string name="txt_gameScene_stateReady_ready">Вы готовы?</string>
-    <string name="txt_gameScene_stateGameOver_gameOver">Игра окончена</string>
+    <string name="txt_gameScene_stateGameWin_gameWin">Вы выиграли!</string>
+    <string name="txt_gameScene_stateGameOver_gameOver">Вы проиграли!</string>
     <string name="txt_gameScene_stateGameOver_restart">Начать игру заново</string>
-    <string name="txt_gameScene_stateGameOver_exit">Выход в главное меню</string>
+    <string name="txt_gameScene_stateGameOver_exit">Выйти в меню и сохранить</string>
+
+    <string name="txt_top_scores">Лучшие результаты</string>
+    <string name="txt_gameScene_stateWin">Лучшие результаты</string>
 
 <!--    HUD-->
     <string name="txt_HUD_coinsCollected">Scores</string>
