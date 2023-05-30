@@ -46,8 +46,8 @@ public class MainPlayer extends ObjectFw {
     public MainPlayer(CoreFw coreFw, int maxScreenX, int maxScreenY, int minScreenY) {
         currentHealth = 3;
         speed = 0;
-        x = 2 * 64;
-        y = 3 * 64;
+        x = 4 * 64;
+        y = 2 * 64;
         boosting = false;
         radius = UtilResource.spritePlayer.get(0).getWidth() / 2;
         timerOnGameOver = new UtilTimerDelay();
@@ -69,7 +69,7 @@ public class MainPlayer extends ObjectFw {
     }
 
     public void update() {
-        passedTime = 1000 - timeTimer.timeDelay();
+        passedTime = 100 - timeTimer.timeDelay();
         if (!gameOver) {
             movement = speed != 0;
             coreFw.getTouchListenerFw().setMovement(movement);
@@ -154,7 +154,7 @@ public class MainPlayer extends ObjectFw {
             }
         }
         hit = false;
-        new GeneratorWallLevelOne(maxScreenX, maxScreenY, minScreenY);
+        new GeneratorWallLevelOne(maxScreenX, maxScreenY);
         //запускаем анимацию
         if (gameOver) {
             animMainPlayerDeath.runAnimation();
@@ -164,7 +164,7 @@ public class MainPlayer extends ObjectFw {
             } else animSpriteMainPlayer.runAnimation();
         }
 
-        if (currentMovementX == 1 && currentMovementY == -1) {
+        if (currentMovementX == 2 && currentMovementY == -3) {
             coreFw.getTouchListenerFw().setMovement(false);
             GameManager.gameWin = true;
         }
@@ -228,8 +228,8 @@ public class MainPlayer extends ObjectFw {
             if (currentHealth > 0) {
                 currentMovementX = 0;
                 currentMovementY = 0;
-                x = 2 * 64;
-                y = 3 * 64;
+                x = 4 * 64;
+                y = 2 * 64;
                 stopBoosting();
                 movement = false;
             } else {

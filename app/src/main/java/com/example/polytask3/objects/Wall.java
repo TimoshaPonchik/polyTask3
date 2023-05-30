@@ -12,8 +12,8 @@ public class Wall extends ObjectFw {
     AnimationFw animWall;
 
     public Wall(int maxScreenX, int maxScreenY, int y, int x) {
-        this.maxScreenX = maxScreenX - UtilResource.spriteWall.get(0).getWidth();
-        this.maxScreenY = maxScreenY - UtilResource.spriteWall.get(0).getHeight();
+            this.maxScreenX = maxScreenX - UtilResource.spriteWall.get(0).getWidth();
+            this.maxScreenY = maxScreenY - UtilResource.spriteWall.get(0).getHeight();
         animWall = new AnimationFw(1, UtilResource.spriteWall.get(0), UtilResource.spriteWall.get(0));
         //x = maxScreenX - UtilResource.spritePlayer.get(0).getWidth();
         //y = (maxScreenY - UtilResource.spritePlayer.get(0).getHeight()) / 2;

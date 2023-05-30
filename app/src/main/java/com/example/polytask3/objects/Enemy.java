@@ -1,7 +1,6 @@
 package com.example.polytask3.objects;
 
 import android.graphics.Rect;
-import android.widget.Switch;
 
 import com.example.framework.AnimationFw;
 import com.example.framework.CoreFw;

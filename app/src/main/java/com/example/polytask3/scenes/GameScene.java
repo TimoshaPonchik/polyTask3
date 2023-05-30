@@ -91,17 +91,17 @@ public class GameScene extends SceneFw {
 
     private void drawingStateGameOver() {
         graphicsFw.clearScene(Color.BLACK);
-        graphicsFw.drawText(coreFw.getString(R.string.txt_gameScene_stateGameOver_gameOver), 100, 300, Color.WHITE, 60, null);
-        graphicsFw.drawText(coreFw.getString(R.string.txt_gameScene_stateGameOver_restart), 100, 360, Color.WHITE, 60, null);
-        graphicsFw.drawText(coreFw.getString(R.string.txt_gameScene_stateGameOver_exit), 100, 420, Color.WHITE, 60, null);
+        graphicsFw.drawText(coreFw.getString(R.string.txt_gameScene_stateGameOver_gameOver), 100, 300, Color.WHITE, 30, null);
+        graphicsFw.drawText(coreFw.getString(R.string.txt_gameScene_stateGameOver_restart), 100, 360, Color.WHITE, 30, null);
+        graphicsFw.drawText(coreFw.getString(R.string.txt_gameScene_stateGameOver_exit), 100, 420, Color.WHITE, 30, null);
     }
 
     private void updateStateGameOver() {
-        if (coreFw.getTouchListenerFw().getTouchUp(250, 360, 100, 35)) {
+        if (coreFw.getTouchListenerFw().getTouchUp(100, 300, 200, 35)) {
             coreFw.setScene(new GameScene(coreFw));
 
         }
-        if (coreFw.getTouchListenerFw().getTouchUp(250, 420, 100, 35)) {
+        if (coreFw.getTouchListenerFw().getTouchUp(100, 360, 200, 35)) {
             coreFw.setScene(new MainMenuScene(coreFw));
         }
     }
@@ -114,7 +114,7 @@ public class GameScene extends SceneFw {
 
     private void drawingStateRunning() {
         graphicsFw.clearScene((Color.BLACK));
-        gameManager.drawing(coreFw, graphicsFw);
+        gameManager.drawing(graphicsFw);
     }
 
     private void updateStateRunning() {

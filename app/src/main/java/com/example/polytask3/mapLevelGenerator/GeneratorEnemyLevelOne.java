@@ -9,24 +9,21 @@ import java.util.ArrayList;
 
 public class GeneratorEnemyLevelOne extends ObjectFw {
     CoreFw coreFw;
-    private int maxSreenY;
-    private int maxSreenX;
-    private int minSreenX;
-    private int minSreenY;
-    private int STACK_ENEMY = 3;
+    private final int maxSreenY;
+    private final int maxSreenX;
     private int xShift;
     private int yShift;
     private int currentX;
     private int currentY;
+    public static String seedGame;
+
 
     public ArrayList<Enemy> enemyArrayList;
 
-    public GeneratorEnemyLevelOne(int sceneWidth, int sceneHeight, int minSreenY) {
+    public GeneratorEnemyLevelOne(int sceneWidth, int sceneHeight) {
         this.maxSreenX = sceneWidth;
         this.maxSreenY = sceneHeight;
-        this.minSreenY = minSreenY;
-        this.minSreenX = 0;
-        enemyArrayList = new ArrayList<Enemy>();
+        enemyArrayList = new ArrayList<>();
     }
 
     public void setCurrentX(int currentX) {
@@ -41,6 +38,7 @@ public class GeneratorEnemyLevelOne extends ObjectFw {
         if (checker) {
             enemyArrayList.clear();
         }
+        int STACK_ENEMY = 4;
         if (enemyArrayList.size() < STACK_ENEMY) {
             addEnemyLvlOne();
         }
@@ -52,20 +50,57 @@ public class GeneratorEnemyLevelOne extends ObjectFw {
 
 
     public void addEnemyLvlOne() {
-
         if (currentX == 0 && currentY == 0) {
-            int[][] levelOneEnemyArrCoord = new int[][]{
-                    {8, 6, 1},
-                    {3, 7, 2},
-                    {7, 8, 2}
-            };
-            enemyGenerator(levelOneEnemyArrCoord);
+            GeneratorRooms generatorRooms = new GeneratorRooms(seedGame.charAt(0));
+            int[][] levelTwoArrCoord = generatorRooms.generatorEnemiesGetter();
+            enemyGenerator(levelTwoArrCoord);
         }
 
         if (currentX == 0 && currentY == -1) {
-            int[][] levelOneEnemyArrCoord = new int[][]{
-                    {1,2,2},{3,4,2}, {8,8,2}};
-            enemyGenerator(levelOneEnemyArrCoord);
+            GeneratorRooms generatorRooms = new GeneratorRooms(seedGame.charAt(1));
+            int[][] levelTwoArrCoord = generatorRooms.generatorEnemiesGetter();
+            enemyGenerator(levelTwoArrCoord);
+        }
+
+        if (currentX == 0 && currentY == -2) {
+            GeneratorRooms generatorRooms = new GeneratorRooms(seedGame.charAt(2));
+            int[][] levelTwoArrCoord = generatorRooms.generatorEnemiesGetter();
+            enemyGenerator(levelTwoArrCoord);
+        }
+
+        if (currentX == 1 && currentY == 0) {
+            GeneratorRooms generatorRooms = new GeneratorRooms(seedGame.charAt(3));
+            int[][] levelTwoArrCoord = generatorRooms.generatorEnemiesGetter();
+            enemyGenerator(levelTwoArrCoord);
+        }
+
+        if (currentX == 1 && currentY == -1) {
+            GeneratorRooms generatorRooms = new GeneratorRooms(seedGame.charAt(4));
+            int[][] levelTwoArrCoord = generatorRooms.generatorEnemiesGetter();
+            enemyGenerator(levelTwoArrCoord);
+        }
+
+        if (currentX == 1 && currentY == -2) {
+            GeneratorRooms generatorRooms = new GeneratorRooms(seedGame.charAt(5));
+            int[][] levelTwoArrCoord = generatorRooms.generatorEnemiesGetter();
+            enemyGenerator(levelTwoArrCoord);
+        }
+
+        if (currentX == 2 && currentY == 0) {
+            GeneratorRooms generatorRooms = new GeneratorRooms(seedGame.charAt(6));
+            int[][] levelTwoArrCoord = generatorRooms.generatorEnemiesGetter();
+            enemyGenerator(levelTwoArrCoord);
+        }
+
+        if (currentX == 2 && currentY == -1) {
+            GeneratorRooms generatorRooms = new GeneratorRooms(seedGame.charAt(7));
+            int[][] levelTwoArrCoord = generatorRooms.generatorEnemiesGetter();
+            enemyGenerator(levelTwoArrCoord);
+        }
+        if (currentX == 2 && currentY == -2) {
+            GeneratorRooms generatorRooms = new GeneratorRooms(seedGame.charAt(8));
+            int[][] levelTwoArrCoord = generatorRooms.generatorEnemiesGetter();
+            enemyGenerator(levelTwoArrCoord);
         }
     }
 

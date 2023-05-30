@@ -24,13 +24,8 @@ public class GraphicsFw {
         this.paintGame = new Paint();
     }
 
-        public void clearScene(int colorRGB) {
+    public void clearScene(int colorRGB) {
         canvasGame.drawRGB(colorRGB, colorRGB, colorRGB);
-    }
-
-    public void drawPixel(int x, int y, int color) {
-        paintGame.setColor(color);
-        canvasGame.drawPoint(x, y, paintGame);
     }
 
     public void drawLine(int startX, int startY, int endX, int endY, int color) {

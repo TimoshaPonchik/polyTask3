@@ -15,7 +15,7 @@ public class UtilRandomFw {
     }
 
     public static int getGap(int minNumber, int maxNumber) {
-        int gap = 0;
+        int gap;
         gap = (int) ((Math.random() * ++maxNumber) + minNumber);
         return gap;
     }

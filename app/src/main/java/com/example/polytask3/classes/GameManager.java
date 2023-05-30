@@ -3,6 +3,7 @@ package com.example.polytask3.classes;
 import com.example.framework.CollisionDetect;
 import com.example.framework.CoreFw;
 import com.example.framework.GraphicsFw;
+import com.example.framework.utilits.UtilRandomFw;
 import com.example.polytask3.mapLevelGenerator.GeneratorWallLevelOne;
 import com.example.polytask3.mapLevelGenerator.GeneratorEnemyLevelOne;
 import com.example.polytask3.objects.Enemy;
@@ -29,14 +30,22 @@ public class GameManager {
     public GameManager(CoreFw coreFw, int sceneWidth, int sceneHeight) {
         hud = new HUD(coreFw);
         //класс выполняет логику всей игры, руководит всей игрой (коллизии, удары итд...)
-        int minScreenY = hud.getHEIGHT_HUD();
         mainPlayer = new MainPlayer(coreFw, sceneWidth, sceneHeight, hud.getHEIGHT_HUD() * 2);
-        wallGeneratorLevelOne = new GeneratorWallLevelOne(sceneWidth, sceneHeight, minScreenY);
-        enemyGeneratorLevelOne = new GeneratorEnemyLevelOne(sceneWidth, sceneHeight, minScreenY);
+        wallGeneratorLevelOne = new GeneratorWallLevelOne(sceneWidth, sceneHeight);
+        enemyGeneratorLevelOne = new GeneratorEnemyLevelOne(sceneWidth, sceneHeight);
         wall = new Wall(sceneWidth, sceneHeight, hud.getHEIGHT_HUD(), -100);
         enemy = new Enemy(sceneWidth, sceneHeight, hud.getHEIGHT_HUD(), -100, 0, coreFw);
         gameOver = false;
         gameWin = false;
+        StringBuilder gameSeed = new StringBuilder();
+        int roomSeed;
+        for (int i = 0; i < 9; i++) {
+            gameSeed.append(UtilRandomFw.getGap(1, 2));
+        }
+        roomSeed = UtilRandomFw.getGap(1, 4);
+        GeneratorWallLevelOne.seedGame = gameSeed.toString();
+        GeneratorEnemyLevelOne.seedGame = gameSeed.toString();
+        GeneratorWallLevelOne.seedRoom = roomSeed;
     }
 
     public int getTimePassed() {
@@ -51,9 +60,6 @@ public class GameManager {
         mainPlayer.update();
         int getCurrentMovementX = mainPlayer.getCurrentMovementX();
         int getCurrentMovementY = mainPlayer.getCurrentMovementY();
-        if (gameWin) {
-            gameWin = true;
-        }
         if (currentX != getCurrentMovementX || currentY != getCurrentMovementY) {
             currentX = getCurrentMovementX;
             currentY = getCurrentMovementY;
@@ -95,7 +101,7 @@ public class GameManager {
         }
     }
 
-    public void drawing(CoreFw coreFw, GraphicsFw graphicsFw) {
+    public void drawing(GraphicsFw graphicsFw) {
         mainPlayer.drawing(graphicsFw);
         wall.drawing(graphicsFw);
         enemy.drawing(graphicsFw);

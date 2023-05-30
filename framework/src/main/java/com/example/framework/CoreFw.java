@@ -15,18 +15,10 @@ import java.io.IOException;
 
 public class CoreFw extends AppCompatActivity {
 
-    private final float FRAME_BUFFER_WIDTH = 600;
-    private final float FRAME_BUFFER_HEIGHT = 800;
-
     private LoopFw loopFw;
     private GraphicsFw graphicsFw;
     private TouchListenerFw touchListenerFw;
-    private Display display;
-    private Point sizeDisplay;
-    private Bitmap frameBuffer;
     private SceneFw sceneFw;
-    private float sceneWidth;
-    private float sceneHeight;
     private boolean stateOnPause;
     private boolean stateOnResume;
 
@@ -35,21 +27,23 @@ public class CoreFw extends AppCompatActivity {
     }
 
     private SharedPreferences sharedPreferences;
-    private final String SETTINGS = "settings";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        String SETTINGS = "settings";
         sharedPreferences = getSharedPreferences(SETTINGS, MODE_PRIVATE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 
-        sizeDisplay = new Point();
-        display = getWindowManager().getDefaultDisplay();
+        Point sizeDisplay = new Point();
+        Display display = getWindowManager().getDefaultDisplay();
         display.getSize(sizeDisplay);
-        frameBuffer = Bitmap.createBitmap((int)FRAME_BUFFER_WIDTH, (int)FRAME_BUFFER_HEIGHT,Bitmap.Config.ARGB_8888);
-        sceneWidth = FRAME_BUFFER_WIDTH / sizeDisplay.x;
-        sceneHeight = FRAME_BUFFER_HEIGHT / sizeDisplay.y;
+        float FRAME_BUFFER_WIDTH = 600;
+        float FRAME_BUFFER_HEIGHT = 800;
+        Bitmap frameBuffer = Bitmap.createBitmap((int) FRAME_BUFFER_WIDTH, (int) FRAME_BUFFER_HEIGHT, Bitmap.Config.ARGB_8888);
+        float sceneWidth = FRAME_BUFFER_WIDTH / sizeDisplay.x;
+        float sceneHeight = FRAME_BUFFER_HEIGHT / sizeDisplay.y;
 
         loopFw = new LoopFw(this, frameBuffer);
         graphicsFw = new GraphicsFw(getAssets(), frameBuffer);
@@ -63,9 +57,9 @@ public class CoreFw extends AppCompatActivity {
 
     }
 
-    public CoreFw() {
-
-    }
+//    public CoreFw() {
+//
+//    }
 
     public void onResume() {
         super.onResume();

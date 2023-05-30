@@ -7,23 +7,20 @@ import com.example.polytask3.objects.Wall;
 import java.util.ArrayList;
 
 public class GeneratorWallLevelOne extends ObjectFw {
-    private int maxSreenY;
-    private int maxSreenX;
-    private int minSreenX;
-    private int minSreenY;
-    private int STACK_BLOCKS = 20;
+    private final int maxSreenY;
+    private final int maxSreenX;
     private int xShift;
     private int yShift;
     private int currentX;
     private int currentY;
+    public static String seedGame;
+    public static int seedRoom;
 
     public ArrayList<Wall> wallsArrayList;
 
-    public GeneratorWallLevelOne(int sceneWidth, int sceneHeight, int minSreenY) {
+    public GeneratorWallLevelOne(int sceneWidth, int sceneHeight) {
         this.maxSreenX = sceneWidth;
         this.maxSreenY = sceneHeight;
-        this.minSreenY = minSreenY;
-        this.minSreenX = 0;
         wallsArrayList = new ArrayList<>();
     }
 
@@ -39,6 +36,7 @@ public class GeneratorWallLevelOne extends ObjectFw {
         if (checker) {
             wallsArrayList.clear();
         }
+        int STACK_BLOCKS = 20;
         if (wallsArrayList.size() < STACK_BLOCKS) {
             addWallLvlOne();
         }
@@ -50,41 +48,159 @@ public class GeneratorWallLevelOne extends ObjectFw {
 
 
     public void addWallLvlOne() {
-
         if (currentX == 0 && currentY == 0) {
-            int[][] levelOneArrCoord = new int[][]{
-                    {0, 1}, {1, 1}, {2, 1}, {3, 1}, {4, 1}, {5, 1}, {6, 1}, {7, 1}, {8, 1}, {9, 1},
-                    {0, 2}, {9, 2},
-                    {0, 3}, {5, 3}, {6, 3}, {7, 3}, {9, 3},
-                    {0, 4}, {1, 4}, {2, 4}, {3, 4}, {4, 4}, {5, 4}, {9, 4},
-                    {0, 5}, {7, 5}, {8, 5}, {9, 5},
-                    {0, 6}, {2, 6}, {4, 6}, {9, 6},
-                    {0, 7}, {2, 7}, {4, 7}, {5, 7}, {6, 7}, {7, 7}, {8, 7}, {9, 7},
-                    {0, 8}, {2, 8}, {9, 8},
-                    {0, 9}, {2, 9}, {5, 9}, {9, 9},
-                    {0, 10}, {2, 10}, {3, 10}, {9, 10},
-                    {0, 11}, {9, 11},
-                    {0, 12}, {1, 12}, {2, 12}, {3, 12}, {5, 12}, {6, 12}, {7, 12}, {8, 12}, {9, 12},
-            };
+            int[][] levelOneArrCoord = new int[][]{{0, 6}, {9, 6}, {4, 1}};
+            GeneratorRooms generatorRooms = new GeneratorRooms(seedGame.charAt(0));
+            int[][] levelTwoArrCoord = generatorRooms.generatorRoomsGetter();
             blockGenerator(levelOneArrCoord);
+            blockGenerator(levelTwoArrCoord);
         }
 
         if (currentX == 0 && currentY == -1) {
-            int[][] levelOneWallsArrCoord = new int[][]{
-                    {0,1}, {1,1}, {2,1}, {3,1}, {5,1}, {6,1}, {7,1}, {8,1}, {9,1},
-                    {0,2}, {8,2}, {9,2},
-                    {0,3}, {5,3}, {9,3},
-                    {0,4}, {2,4}, {5,4},
-                    {0,5}, {2,5}, {6,5}, {9,5},
-                    {0,6}, {7,6}, {9,6},
-                    {0,7}, {2,7}, {3,7}, {7,7}, {9,7},
-                    {0,8}, {7,8}, {9,8},
-                    {0,9}, {2,9}, {3,9}, {7,9}, {9,9},
-                    {0,10}, {2,10}, {7,10}, {9,10},
-                    {0,11}, {2,11}, {9,11},
-                    {0,12}, {1,12}, {2,12}, {3,12}, {4,12}, {5,12}, {6,12}, {7,12}, {8,12}, {9,12}};
-            blockGenerator(levelOneWallsArrCoord);
+            int[][] levelOneArrCoord = new int[2][2];
+            GeneratorRooms generatorRooms = new GeneratorRooms(seedGame.charAt(1));
+            int[][] levelTwoArrCoord = generatorRooms.generatorRoomsGetter();
+            switch (seedRoom) {
+                case (1):
+                case (5):
+                    levelOneArrCoord[0][0] = 0;
+                    levelOneArrCoord[0][1] = 6;
+                    levelOneArrCoord[1][0] = 9;
+                    levelOneArrCoord[1][1] = 6;
+                    break;
+                default:
+                    levelOneArrCoord[0][0] = 0;
+                    levelOneArrCoord[0][1] = 6;
+                    levelOneArrCoord[1][0] = 4;
+                    levelOneArrCoord[1][1] = 12;
+                    break;
+
+            }
+            blockGenerator(levelOneArrCoord);
+            blockGenerator(levelTwoArrCoord);
         }
+
+        if (currentX == 0 && currentY == -2) {
+            int[][] levelOneArrCoord = new int[][]{{0, 6}, {4, 12}};
+            GeneratorRooms generatorRooms = new GeneratorRooms(seedGame.charAt(2));
+            int[][] levelTwoArrCoord = generatorRooms.generatorRoomsGetter();
+            blockGenerator(levelOneArrCoord);
+            blockGenerator(levelTwoArrCoord);
+        }
+        if (currentX == 1 && currentY == 0) {
+            int[][] levelOneArrCoord = new int[][]{{0, 6}, {4, 1}};
+            GeneratorRooms generatorRooms = new GeneratorRooms(seedGame.charAt(3));
+            int[][] levelTwoArrCoord = generatorRooms.generatorRoomsGetter();
+            blockGenerator(levelOneArrCoord);
+            blockGenerator(levelTwoArrCoord);
+        }
+        if (currentX == 1 && currentY == -1) {
+            int[][] levelOneArrCoord = new int[2][2];
+            GeneratorRooms generatorRooms = new GeneratorRooms(seedGame.charAt(4));
+            int[][] levelTwoArrCoord = generatorRooms.generatorRoomsGetter();
+            switch (seedRoom) {
+                case (1):
+                    levelOneArrCoord[0][0] = 0;
+                    levelOneArrCoord[0][1] = 6;
+                    levelOneArrCoord[1][0] = 4;
+                    levelOneArrCoord[1][1] = 1;
+                    break;
+                case (2):
+                    levelOneArrCoord[0][0] = 4;
+                    levelOneArrCoord[0][1] = 1;
+                    levelOneArrCoord[1][0] = 9;
+                    levelOneArrCoord[1][1] = 6;
+                    break;
+                case (3):
+                    levelOneArrCoord[0][0] = 4;
+                    levelOneArrCoord[0][1] = 1;
+                    levelOneArrCoord[1][0] = 4;
+                    levelOneArrCoord[1][1] = 12;
+                    break;
+                case (4):
+                    levelOneArrCoord[0][0] = 4;
+                    levelOneArrCoord[0][1] = 12;
+                    levelOneArrCoord[1][0] = 9;
+                    levelOneArrCoord[1][1] = 6;
+                    break;
+            }
+            blockGenerator(levelOneArrCoord);
+            blockGenerator(levelTwoArrCoord);
+        }
+        if (currentX == 1 && currentY == -2) {
+            int[][] levelOneArrCoord = new int[2][2];
+            GeneratorRooms generatorRooms = new GeneratorRooms(seedGame.charAt(5));
+            int[][] levelTwoArrCoord = generatorRooms.generatorRoomsGetter();
+            levelOneArrCoord[0][0] = 4;
+            levelOneArrCoord[0][1] = 12;
+            switch (seedRoom) {
+                case (1):
+                    levelOneArrCoord[1][0] = 9;
+                    levelOneArrCoord[1][1] = 6;
+                    break;
+                case (2):
+                    levelOneArrCoord[1][0] = 0;
+                    levelOneArrCoord[1][1] = 6;
+                    break;
+                case (5):
+                    levelOneArrCoord[1][0] = 4;
+                    levelOneArrCoord[1][1] = 1;
+                    break;
+            }
+            blockGenerator(levelOneArrCoord);
+            blockGenerator(levelTwoArrCoord);
+        }
+        if (currentX == 2 && currentY == 0) {
+            int[][] levelOneArrCoord = new int[][]{{4, 1}, {9, 6}};
+            GeneratorRooms generatorRooms = new GeneratorRooms(seedGame.charAt(6));
+            int[][] levelTwoArrCoord = generatorRooms.generatorRoomsGetter();
+            blockGenerator(levelOneArrCoord);
+            blockGenerator(levelTwoArrCoord);
+        }
+        if (currentX == 2 && currentY == -1) {
+            int[][] levelOneArrCoord = new int[2][2];
+            GeneratorRooms generatorRooms = new GeneratorRooms(seedGame.charAt(7));
+            int[][] levelTwoArrCoord = generatorRooms.generatorRoomsGetter();
+            levelOneArrCoord[0][0] = 9;
+            levelOneArrCoord[0][1] = 6;
+            switch (seedRoom) {
+                case (1):
+                case (3):
+                    levelOneArrCoord[1][0] = 4;
+                    levelOneArrCoord[1][1] = 1;
+                    break;
+                case (4):
+                    levelOneArrCoord[1][0] = 0;
+                    levelOneArrCoord[1][1] = 6;
+                    break;
+            }
+            blockGenerator(levelOneArrCoord);
+            blockGenerator(levelTwoArrCoord);
+        }
+        if (currentX == 2 && currentY == -2) {
+            int[][] levelOneArrCoord = new int[2][2];
+            GeneratorRooms generatorRooms = new GeneratorRooms(seedGame.charAt(8));
+            int[][] levelTwoArrCoord = generatorRooms.generatorRoomsGetter();
+            levelOneArrCoord[0][0] = 9;
+            levelOneArrCoord[0][1] = 6;
+            switch (seedRoom) {
+                case (1):
+                case (3):
+                case (4):
+                    levelOneArrCoord[1][0] = 0;
+                    levelOneArrCoord[1][1] = 6;
+                    break;
+                case (2):
+                case (5):
+                    levelOneArrCoord[1][0] = 4;
+                    levelOneArrCoord[1][1] = 1;
+                    break;
+            }
+            blockGenerator(levelOneArrCoord);
+            blockGenerator(levelTwoArrCoord);
+        }
+
+
     }
 
     public void blockGenerator(int[][] arrCoord) {
