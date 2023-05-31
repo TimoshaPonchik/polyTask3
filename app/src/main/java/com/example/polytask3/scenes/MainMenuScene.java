@@ -22,7 +22,7 @@ public class MainMenuScene extends SceneFw {
             //фреймворк уже обрабатывает
         }
 
-        if (coreFw.getTouchListenerFw().getTouchUp(200, 450, 180, 40)) {
+        if (coreFw.getTouchListenerFw().getTouchUp(200, 400, 180, 40)) {
             //Передавая данные мы отслеживаем, нажал пользователь или не нажал, если нажал - то ->
             coreFw.setScene(new TopScores(coreFw));
             //фреймворк уже обрабатывает

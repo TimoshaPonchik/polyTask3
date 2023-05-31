@@ -49,7 +49,7 @@ public class GeneratorEnemyLevelOne extends ObjectFw {
     }
 
 
-    public void addEnemyLvlOne() {
+    private void addEnemyLvlOne() {
         if (currentX == 0 && currentY == 0) {
             GeneratorRooms generatorRooms = new GeneratorRooms(seedGame.charAt(0));
             int[][] levelTwoArrCoord = generatorRooms.generatorEnemiesGetter();
@@ -104,7 +104,7 @@ public class GeneratorEnemyLevelOne extends ObjectFw {
         }
     }
 
-    public void enemyGenerator(int[][] arrCoord) {
+    private void enemyGenerator(int[][] arrCoord) {
         for (int[] row : arrCoord) {
             enemyArrayList.add(new Enemy(maxSreenX, maxSreenY, row[1] * 64, row[0] * 64, row[2], coreFw));
         }

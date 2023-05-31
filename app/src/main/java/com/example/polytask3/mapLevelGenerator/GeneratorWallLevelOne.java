@@ -47,7 +47,7 @@ public class GeneratorWallLevelOne extends ObjectFw {
     }
 
 
-    public void addWallLvlOne() {
+    private void addWallLvlOne() {
         if (currentX == 0 && currentY == 0) {
             int[][] levelOneArrCoord = new int[][]{{0, 6}, {9, 6}, {4, 1}};
             GeneratorRooms generatorRooms = new GeneratorRooms(seedGame.charAt(0));
@@ -203,7 +203,7 @@ public class GeneratorWallLevelOne extends ObjectFw {
 
     }
 
-    public void blockGenerator(int[][] arrCoord) {
+    private void blockGenerator(int[][] arrCoord) {
         for (int[] row : arrCoord) {
             wallsArrayList.add(new Wall(maxSreenX, maxSreenY, row[1] * 64, row[0] * 64));
         }
